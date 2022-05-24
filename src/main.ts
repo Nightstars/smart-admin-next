@@ -1,15 +1,19 @@
 import './styles/tailwind.css';
 import { createApp } from 'vue';
 import App from './App.vue';
+import Antd from 'ant-design-vue';
 import router, { setupRouter } from './router';
 import { setupStore } from '@/store';
 import { setupNaive, setupDirectives } from '@/plugins';
 import { AppProvider } from '@/components/Application';
+import 'ant-design-vue/dist/antd.css';
 
 async function bootstrap() {
   const appProvider = createApp(AppProvider);
 
   const app = createApp(App);
+
+  //全局注册ant-design
 
   // 注册全局常用的 naive-ui 组件
   setupNaive(app);
@@ -35,7 +39,7 @@ async function bootstrap() {
   // 路由准备就绪后挂载APP实例
   await router.isReady();
 
-  app.mount('#app', true);
+  app.use(Antd).mount('#app', true);
 }
 
 void bootstrap();
