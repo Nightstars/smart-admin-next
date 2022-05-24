@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Layout } from '@/router/constant';
-import { DashboardOutlined } from '@vicons/antd';
+import { AppstoreOutlined } from '@vicons/antd';
 import { renderIcon } from '@/utils/index';
 
 const routeName = 'AppCenter';
@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Layout,
     meta: {
       title: '应用中心',
-      icon: renderIcon(DashboardOutlined),
+      icon: renderIcon(AppstoreOutlined),
       //permissions: [`${routeName}_myApps`, `${routeName}_appsMgr`],
       sort: 1,
     },
