@@ -63,7 +63,7 @@ export const useUserStore = defineStore({
         const response = await login(userInfo);
         const { result, code } = response;
         if (code === ResultEnum.SUCCESS) {
-          const ex = 7 * 24 * 60 * 60 * 1000;
+          const ex = 18 * 1000;
           storage.set(ACCESS_TOKEN, result.token, ex);
           storage.set(CURRENT_USER, result, ex);
           storage.set(IS_LOCKSCREEN, false);
@@ -78,6 +78,7 @@ export const useUserStore = defineStore({
 
     // 获取用户信息
     GetInfo() {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       const that = this;
       return new Promise((resolve, reject) => {
         getUserInfo()

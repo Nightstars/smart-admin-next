@@ -179,10 +179,13 @@ const transform: AxiosTransform = {
     const userStore = useUserStoreWidthOut();
     const token = userStore.getToken;
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
+      console.log(options.authenticationScheme);
+
       // jwt token
-      (config as Recordable).headers.Authorization = options.authenticationScheme
-        ? `${options.authenticationScheme} ${token}`
-        : token;
+      // (config as Recordable).headers.Authorization = options.authenticationScheme
+      //   ? `${options.authenticationScheme} ${token}`
+      //   : token;
+      (config as Recordable).headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
@@ -239,7 +242,10 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         authenticationScheme: '',
         // 接口前缀
         prefixUrl: urlPrefix,
-        headers: { 'Content-Type': ContentTypeEnum.JSON },
+        headers: {
+          'Content-Type': ContentTypeEnum.JSON,
+          Authorization: 'Bearer',
+        },
         // 数据处理方式
         transform,
         // 配置项，下面的选项都可以在独立的接口请求中覆盖

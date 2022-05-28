@@ -1,4 +1,11 @@
 .new-page{
+
+  @keyframes rotate {
+    0%{-webkit-transform: rotate(0deg);}
+
+    100%{-webkit-transform: rotate(360deg);}
+  }
+
   height: 100%;
   background-color: white;
   text-align: center;
@@ -23,8 +30,9 @@
     text-align: center;
     width: 100%;
   }
+
   .app {
-    background: #ffffff;
+    background: #fff;
     width: 100px;
     height: 100px;
     //margin-left: 10px;
@@ -40,11 +48,6 @@
 
   .font {
     color: #0d6cff;
-  }
-
-  @keyframes rotate {
-    0%{-webkit-transform:rotate(0deg);}
-    100%{-webkit-transform:rotate(360deg);}
   }
 
 

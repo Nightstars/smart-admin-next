@@ -34,7 +34,7 @@ const consoleInfo = {
 export default [
   //主控台 卡片数据
   {
-    url: '/api/dashboard/console',
+    url: '/api/Dashboard/console',
     timeout: 1000,
     method: 'get',
     response: () => {

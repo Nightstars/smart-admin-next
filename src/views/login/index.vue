@@ -1,12 +1,38 @@
 <template>
+  <!--  <a-row type="flex" style="height: 100vh">-->
+  <!--    <a-col flex="1 1 50%" style="background: #528beb">-->
+  <!--      <div style="height: 100%">-->
+  <!--        <img-->
+  <!--          src="../../assets/images/login-bg.svg"-->
+  <!--          alt=""-->
+  <!--          style="margin: 0 auto; top: calc(50% - 15px)"-->
+  <!--        />-->
+  <!--      </div>-->
+  <!--    </a-col>-->
+  <!--    <a-col flex="1 1 50%">-->
   <div class="view-account">
     <div class="view-account-header"></div>
     <div class="view-account-container">
       <div class="view-account-top">
-        <div class="view-account-top-logo">
-          <img src="~@/assets/images/account-logo.png" alt="" />
+        <div style="display: flex; justify-content: center; align-items: center">
+          <div style="width: 50%; text-align: center">
+            <img
+              src="~@/assets/images/logo.png"
+              width="64"
+              height="64"
+              alt=""
+              style="margin-left: -5px"
+            />
+          </div>
+          <div style="text-align: justify">
+            <span style="margin-left: -125px; font-size: 42px; font-weight: bold; color: #5f9afa"
+              >Smart admin</span
+            >
+          </div>
         </div>
-        <div class="view-account-top-desc">Naive Ui Admin中台前端/设计解决方案</div>
+        <div class="view-account-top-desc" style="font-size: 20px"
+          >An easier way to manage everything online</div
+        >
       </div>
       <div class="view-account-form">
         <n-form
@@ -82,6 +108,8 @@
       </div>
     </div>
   </div>
+  <!--    </a-col>-->
+  <!--  </a-row>-->
 </template>
 
 <script lang="ts" setup>
@@ -163,17 +191,17 @@
     overflow: auto;
 
     &-container {
+      padding-top: 100px;
       flex: 1;
-      padding: 32px 0;
       width: 384px;
       margin: 0 auto;
     }
 
     &-top {
-      padding: 32px 0;
       text-align: center;
 
       &-desc {
+        padding: 32px 0;
         font-size: 14px;
         color: #808695;
       }
@@ -195,6 +223,7 @@
   @media (min-width: 768px) {
     .view-account {
       background-image: url('../../assets/images/login.svg');
+      //background-color: #528beb;
       background-repeat: no-repeat;
       background-position: 50%;
       background-size: 100%;
@@ -203,5 +232,12 @@
     .page-account-container {
       padding: 32px 0 24px 0;
     }
+  }
+
+  .always-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 </style>

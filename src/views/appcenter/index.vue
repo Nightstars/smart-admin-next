@@ -29,12 +29,31 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { onMounted, ref } from 'vue';
+  import { getAll } from '@/api/appcenter/appcenter';
 
-  const apps = reactive([{ url: '111', icon: '111', name: '111' }]);
-  const spinning = false;
+  interface appDataType {
+    name: string;
+    icon: string;
+    url: string;
+  }
+
+  const apps = ref([] as appDataType[]);
+  let spinning = ref(true);
+
+  const params = {
+    pageIndex: 1,
+    pageSize: 100,
+    name: '',
+  };
+
+  onMounted(async () => {
+    const result = await getAll(params);
+    apps.value = result;
+    spinning.value = false;
+  });
 </script>
 
-<style scoped>
+<style scoped lang="less">
   @import './index.less';
 </style>
