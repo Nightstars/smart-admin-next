@@ -25,7 +25,7 @@ const routes: Array<RouteRecordRaw> = [
           title: '我的应用',
           //permissions: [`${routeName}_myApps`],
         },
-        component: () => import('@/views/appcenter/index.vue'),
+        component: () => import('@/views/appcenter/home/index.vue'),
       },
       {
         path: 'appsMgr',
@@ -34,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
           title: '应用管理',
           //permissions: [`${routeName}_appsMgr`],
         },
-        component: () => import('@/views/appcenter/index.vue'),
+        component: () => import('@/views/appcenter/mgr/index.vue'),
       },
     ],
   },

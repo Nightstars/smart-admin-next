@@ -2,7 +2,7 @@
   <div class="tableAction">
     <div class="flex items-center justify-center">
       <template v-for="(action, index) in getActions" :key="`${index}-${action.label}`">
-        <n-button v-bind="action" class="mx-2">{{ action.label }}</n-button>
+        <n-button :type="action.type" v-bind="action" class="mx-2">{{ action.label }}</n-button>
       </template>
       <n-dropdown
         v-if="dropDownActions && getDropdownList.length"

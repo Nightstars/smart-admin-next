@@ -12,17 +12,26 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/frame/docs',
     component: Layout,
     meta: {
-      title: '外部页面',
+      title: '帮助文档',
       sort: 8,
       icon: renderIcon(DesktopOutline),
     },
     children: [
       {
-        path: 'naive-admin',
-        name: 'naive-admin',
+        path: 'naive',
+        name: 'frame-naive',
         meta: {
-          title: 'NaiveAdmin',
-          frameSrc: 'https://www.naiveadmin.com',
+          title: 'NaiveUi',
+          frameSrc: 'https://www.naiveui.com',
+        },
+        component: IFrame,
+      },
+      {
+        path: 'AntDesign',
+        name: 'frame-antd',
+        meta: {
+          title: 'AntDesign',
+          frameSrc: 'https://www.antdv.com/docs/vue/introduce-cn',
         },
         component: IFrame,
       },
@@ -30,17 +39,8 @@ const routes: Array<RouteRecordRaw> = [
         path: 'docs',
         name: 'frame-docs',
         meta: {
-          title: '项目文档(内嵌)',
+          title: '项目文档',
           frameSrc: 'https://naive-ui-admin-docs.vercel.app',
-        },
-        component: IFrame,
-      },
-      {
-        path: 'naive',
-        name: 'frame-naive',
-        meta: {
-          title: 'NaiveUi(内嵌)',
-          frameSrc: 'https://www.naiveui.com',
         },
         component: IFrame,
       },

@@ -64,6 +64,7 @@
       :pagination="pagination"
       @update:page="updatePage"
       @update:page-size="updatePageSize"
+      striped
     >
       <template #[item]="data" v-for="item in Object.keys($slots)" :key="item">
         <slot :name="item" v-bind="data"></slot>

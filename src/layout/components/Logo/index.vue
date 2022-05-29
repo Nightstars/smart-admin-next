@@ -1,7 +1,7 @@
 <template>
   <div class="logo">
     <img src="~@/assets/images/logo.png" alt="" :class="{ 'mr-2': !collapsed }" />
-    <h2 v-show="!collapsed" class="title">NaiveUiAdmin</h2>
+    <h2 v-show="!collapsed" class="title">Smart Admin</h2>
   </div>
 </template>
 
@@ -33,6 +33,9 @@
 
     .title {
       margin-bottom: 0;
+      font-size: 21px;
+      font-weight: bold;
+      color: #5f9afa;
     }
   }
 </style>

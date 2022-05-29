@@ -55,5 +55,5 @@
 </script>
 
 <style scoped lang="less">
-  @import './index.less';
+  @import 'index.less';
 </style>

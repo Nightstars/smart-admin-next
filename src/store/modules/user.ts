@@ -63,9 +63,9 @@ export const useUserStore = defineStore({
         const response = await login(userInfo);
         const { result, code } = response;
         if (code === ResultEnum.SUCCESS) {
-          const ex = 18 * 1000;
-          storage.set(ACCESS_TOKEN, result.token, ex);
-          storage.set(CURRENT_USER, result, ex);
+          //const ex = 18 * 1000;
+          storage.set(ACCESS_TOKEN, result.token, result.expireAt);
+          storage.set(CURRENT_USER, result, result.expireAt);
           storage.set(IS_LOCKSCREEN, false);
           this.setToken(result.token);
           this.setUserInfo(result);

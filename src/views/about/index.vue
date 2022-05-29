@@ -36,15 +36,8 @@
         </n-descriptions-item>
         <n-descriptions-item label="Github">
           <div class="flex items-center">
-            <a href="https://github.com/jekip/naive-ui-admin" class="py-2" target="_blank"
+            <a href="https://github.com/Nightstars/smart-admin-next" class="py-2" target="_blank"
               >查看Github地址</a
-            >
-          </div>
-        </n-descriptions-item>
-        <n-descriptions-item label="QQ交流群">
-          <div class="flex items-center">
-            <a href="https://jq.qq.com/?_wv=1027&k=xib9dU4C" class="py-2" target="_blank"
-              >点击链接加入群聊【Naive Admin】</a
             >
           </div>
         </n-descriptions-item>
