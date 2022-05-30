@@ -46,37 +46,66 @@
                     label-placement="left"
                     ref="formRef"
                     class="py-8"
+                    :disabled="disabled"
                   >
+                    <n-form-item
+                      label="seqNo"
+                      path="seqNo"
+                      :show-label="false"
+                      style="display: none"
+                    >
+                      <n-input v-model:value="formValue.seqNo" />
+                    </n-form-item>
                     <n-form-item label="名称" path="name">
-                      <n-input v-model:value="formValue.name" placeholder="输入名称" />
+                      <n-input
+                        v-model:value="formValue.name"
+                        placeholder="输入名称"
+                        :clearable="true"
+                      />
                     </n-form-item>
                     <n-form-item label="地址" path="url">
-                      <n-input v-model:value="formValue.url" placeholder="输入应用地址" />
+                      <n-input
+                        v-model:value="formValue.url"
+                        placeholder="输入应用地址"
+                        :clearable="true"
+                      />
                     </n-form-item>
                     <n-form-item label="图标" path="icon">
-                      <n-input v-model:value="formValue.icon" placeholder="输入图标地址" />
+                      <n-input
+                        v-model:value="formValue.icon"
+                        placeholder="输入图标地址"
+                        :clearable="true"
+                      />
                     </n-form-item>
                     <n-form-item label="权重" path="weight">
                       <n-input-number
                         v-model:value="formValue.weight"
                         placeholder="输入权重"
                         style="width: 100%"
+                        :clearable="true"
                       />
                     </n-form-item>
                     <n-form-item label="标签" path="tag">
-                      <n-input v-model:value="formValue.tag" placeholder="输入标签" />
+                      <n-input
+                        v-model:value="formValue.tag"
+                        placeholder="输入标签"
+                        :clearable="true"
+                      />
                     </n-form-item>
                     <n-form-item label="描述" path="summary">
                       <n-input
                         v-model:value="formValue.summary"
                         type="textarea"
                         placeholder="请输入描述"
+                        :clearable="true"
                       />
                     </n-form-item>
                     <div style="margin-left: 80px">
                       <n-space>
-                        <n-button type="primary" @click="formSubmit">提交</n-button>
-                        <n-button @click="resetForm">重置</n-button>
+                        <n-button :disabled="disabled" type="primary" @click="formSubmit"
+                          >提交</n-button
+                        >
+                        <n-button :disabled="disabled" @click="resetForm">重置</n-button>
                       </n-space>
                     </div>
                   </n-form>
@@ -94,11 +123,11 @@
   import { h, reactive, ref, unref } from 'vue';
   import { FormItemRule, useDialog, useMessage } from 'naive-ui';
   import { BasicTable, TableAction } from '@/components/Table';
-  import { getPageData, addApp, delApp } from '@/api/appcenter/appcenter';
+  import { addApp, delApp, editApp, getApp, getPageData } from '@/api/appcenter/appcenter';
   import { columns } from './columns';
   import { PlusOutlined } from '@vicons/antd';
-  import { useRouter } from 'vue-router';
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index';
+  import { TypeEnum } from '@/enums/TypeEnum';
 
   const schemas: FormSchema[] = [
     {
@@ -111,7 +140,6 @@
     },
   ];
 
-  const router = useRouter();
   const message = useMessage();
   const dialog = useDialog();
   const actionRef = ref();
@@ -159,14 +187,16 @@
   };
 
   const formRef: any = ref(null);
-
+  const disabled = ref<boolean>(false);
+  let type: TypeEnum = TypeEnum.ADD;
   const defaultValueRef = () => ({
+    seqNo: null,
     name: '',
     url: '',
     icon: '',
     summary: '',
     tag: '',
-    weight: 0,
+    weight: 1,
   });
 
   let formValue = reactive(defaultValueRef());
@@ -223,7 +253,7 @@
 
   function addTable() {
     title.value = '应用管理-新增';
-    visible.value = true;
+    initForm(TypeEnum.ADD);
   }
 
   const loadDataTable = async (res) => {
@@ -238,14 +268,20 @@
     actionRef.value.reload();
   }
 
-  function handleDetails(record: Recordable) {
-    console.log('点击了详情', record);
-    router.push({ name: 'basic-info', params: { id: record.id } });
+  async function handleDetails(record: Recordable) {
+    title.value = '应用管理-详情';
+    const { success, msg, data } = await getApp(record.seqNo);
+    if (success) {
+      initForm(TypeEnum.DETAILS, data);
+    } else message.error(msg);
   }
 
-  function handleEdit(record: Recordable) {
-    console.log('点击了编辑', record);
-    router.push({ name: 'basic-info', params: { id: record.id } });
+  async function handleEdit(record: Recordable) {
+    title.value = '应用管理-编辑';
+    const { success, msg, data } = await getApp(record.seqNo);
+    if (success) {
+      initForm(TypeEnum.EDIT, data);
+    } else message.error(msg);
   }
 
   async function handleDelete(record: Recordable) {
@@ -274,7 +310,16 @@
   function formSubmit() {
     formRef.value.validate(async (errors) => {
       if (!errors) {
-        const result = await addApp(formValue);
+        let result = null;
+        switch (type) {
+          case TypeEnum.ADD:
+            result = await addApp(formValue);
+            break;
+          case TypeEnum.EDIT:
+            result = await editApp(formValue);
+            break;
+        }
+
         if (result) {
           message.info('操作成功');
           resetForm();
@@ -288,7 +333,30 @@
 
   function resetForm() {
     formRef.value.restoreValidation();
+    disabled.value = false;
     formValue = Object.assign(unref(formValue), defaultValueRef());
+  }
+
+  function initForm(formType: TypeEnum, data: any = null) {
+    switch (formType) {
+      case TypeEnum.ADD:
+        disabled.value = false;
+        visible.value = true;
+        type = formType;
+        formValue = Object.assign(unref(formValue), defaultValueRef());
+        break;
+      case TypeEnum.EDIT:
+        formValue = Object.assign(unref(formValue), data ?? defaultValueRef());
+        disabled.value = false;
+        visible.value = true;
+        type = formType;
+        break;
+      case TypeEnum.DETAILS:
+        formValue = Object.assign(unref(formValue), data ?? defaultValueRef());
+        disabled.value = true;
+        visible.value = true;
+        break;
+    }
   }
 </script>
 

@@ -1,5 +1,5 @@
 import { h } from 'vue';
-import { NAvatar } from 'naive-ui';
+import { NAvatar, NTime } from 'naive-ui';
 
 export const columns = [
   {
@@ -42,5 +42,11 @@ export const columns = [
     title: '创建时间',
     key: 'createTime',
     width: 100,
+    render(row) {
+      return h(NTime, {
+        format: 'yyyy-MM-dd hh:mm:ss',
+        time: new Date(row.createTime),
+      });
+    },
   },
 ];

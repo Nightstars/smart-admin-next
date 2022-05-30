@@ -32,8 +32,26 @@ export async function addApp(params) {
 // 删除应用
 export async function delApp(params) {
   return await http.request({
-    url: url.APPS_DEL,
+    url: url.APPS_INFO,
     method: RequestEnum.DELETE,
+    params,
+  });
+}
+
+// 应用修改
+export async function editApp(params) {
+  return await http.request({
+    url: url.APPS_INFO,
+    method: RequestEnum.PUT,
+    params,
+  });
+}
+
+// 应用详情
+export async function getApp(params) {
+  return await http.request({
+    url: url.APPS_INFO,
+    method: RequestEnum.GET,
     params,
   });
 }
