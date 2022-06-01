@@ -160,6 +160,7 @@
       message: '请输入应用名称',
       trigger: 'blur',
     },
+
     url: {
       required: true,
       message: '请输入应用地址',
