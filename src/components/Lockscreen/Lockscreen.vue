@@ -201,7 +201,10 @@
     z-index: 9999;
 
     &.onLockLogin {
-      background-color: rgba(25, 28, 34, 0.88);
+      background-color: rgba(25, 28, 34, 0.0);
+      background-image: url("../../assets/images/unlock-bg.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
       backdrop-filter: blur(7px);
     }
 

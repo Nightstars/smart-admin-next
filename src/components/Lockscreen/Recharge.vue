@@ -72,7 +72,7 @@
       width: 300px;
       height: 400px;
       overflow: hidden;
-      background-color: #000;
+      //background-color: #000;
       filter: contrast(15) hue-rotate(0);
       animation: hueRotate 10s infinite linear;
 
@@ -103,7 +103,7 @@
           z-index: 10;
           width: 176px;
           height: 176px;
-          background-color: #000;
+          background-color: black;
           border-radius: 50%;
           content: '';
           transform: translate(-50%, -50%);

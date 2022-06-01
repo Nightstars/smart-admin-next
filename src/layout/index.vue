@@ -24,7 +24,7 @@
       v-model:show="showSideDrawder"
       :width="menuWidth"
       :placement="'left'"
-      class="layout-side-drawer"
+      :class="inverted ? 'layout-side-drawer-dark' : 'layout-side-drawer'"
     >
       <Logo :collapsed="collapsed" />
       <AsideMenu @clickMenuItem="collapsed = false" />
@@ -167,10 +167,11 @@
   const checkMobileMode = () => {
     if (document.body.clientWidth <= mobileWidth) {
       isMobile.value = true;
+      collapsed.value = false;
     } else {
       isMobile.value = false;
+      collapsed.value = true;
     }
-    collapsed.value = false;
   };
 
   const watchWidth = () => {
@@ -193,6 +194,18 @@
 
 <style lang="less">
   .layout-side-drawer {
+    background-color: rgb(255, 255, 255);
+
+    .layout-sider {
+      min-height: 100vh;
+      box-shadow: 2px 0 8px 0 rgb(29 35 41 / 5%);
+      position: relative;
+      z-index: 13;
+      transition: all 0.2s ease-in-out;
+    }
+  }
+
+  .layout-side-drawer-dark {
     background-color: rgb(0, 20, 40);
 
     .layout-sider {

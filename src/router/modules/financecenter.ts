@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { Layout } from '@/router/constant';
-import { AppstoreOutlined } from '@vicons/antd';
+import { FundOutlined } from '@vicons/antd';
 import { renderIcon } from '@/utils/index';
 
 const routeName = 'FinanceCenter';
@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Layout,
     meta: {
       title: '金融中心',
-      icon: renderIcon(AppstoreOutlined),
+      icon: renderIcon(FundOutlined),
       //permissions: [`${routeName}_myApps`, `${routeName}_appsMgr`],
       sort: 1,
     },
