@@ -1,0 +1,12 @@
+:80 {
+        root * /usr/share/caddy/dist
+        file_server
+        encode zstd gzip
+        try_files {path}  /index.html
+        log {
+			output file ./caddy.log
+			format console {
+				time_format wall_milli
+			}
+        }
+}
