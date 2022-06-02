@@ -56,39 +56,42 @@
                     >
                       <n-input v-model:value="formValue.seqNo" />
                     </n-form-item>
-                    <n-form-item label="名称" path="name">
+                    <n-form-item label="名称" path="appName">
                       <n-input
-                        v-model:value="formValue.name"
+                        v-model:value="formValue.appName"
                         placeholder="输入名称"
                         :clearable="true"
                       />
                     </n-form-item>
-                    <n-form-item label="地址" path="url">
+                    <n-form-item label="地址" path="appPath">
                       <n-input
-                        v-model:value="formValue.url"
+                        v-model:value="formValue.appPath"
                         placeholder="输入应用地址"
                         :clearable="true"
                       />
                     </n-form-item>
-                    <n-form-item label="图标" path="icon">
-                      <n-input
-                        v-model:value="formValue.icon"
-                        placeholder="输入图标地址"
-                        :clearable="true"
+                    <n-form-item label="组别" path="appGroup">
+                      <!--                      <n-input-->
+                      <!--                        v-model:value="formValue.appGroup"-->
+                      <!--                        placeholder="输选择组别"-->
+                      <!--                        :clearable="true"-->
+                      <!--                      />-->
+                      <n-select
+                        v-model:value="formValue.appGroup"
+                        filterable
+                        placeholder="选择组别"
+                        :options="appGroupOptions"
+                        :loading="appGroupLoading"
+                        clearable
+                        remote
+                        @search="GetAppGroup"
                       />
                     </n-form-item>
-                    <n-form-item label="权重" path="weight">
+                    <n-form-item label="权重" path="appWeight">
                       <n-input-number
-                        v-model:value="formValue.weight"
+                        v-model:value="formValue.appWeight"
                         placeholder="输入权重"
                         style="width: 100%"
-                        :clearable="true"
-                      />
-                    </n-form-item>
-                    <n-form-item label="标签" path="tag">
-                      <n-input
-                        v-model:value="formValue.tag"
-                        placeholder="输入标签"
                         :clearable="true"
                       />
                     </n-form-item>
@@ -121,9 +124,16 @@
 
 <script lang="ts" setup>
   import { h, reactive, ref, unref } from 'vue';
-  import { FormItemRule, useDialog, useMessage } from 'naive-ui';
+  import { FormItemRule, SelectOption, useDialog, useMessage } from 'naive-ui';
   import { BasicTable, TableAction } from '@/components/Table';
-  import { addApp, delApp, editApp, getApp, getPageData } from '@/api/financecenter/financecenter';
+  import {
+    addApp,
+    delApp,
+    editApp,
+    getApp,
+    getGroup,
+    getPageData,
+  } from '@/api/financecenter/financecenter';
   import { columns } from './columns';
   import { PlusOutlined } from '@vicons/antd';
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index';
@@ -155,22 +165,22 @@
   };
 
   const rules = {
-    name: {
+    appName: {
       required: true,
       message: '请输入应用名称',
       trigger: 'blur',
     },
-    url: {
+    appPath: {
       required: true,
       message: '请输入应用地址',
       trigger: 'blur',
     },
-    icon: {
+    appGroup: {
       required: true,
       message: '请输入应用图标地址',
       trigger: 'blur',
     },
-    weight: [
+    appWeight: [
       {
         required: true,
         validator(rule: FormItemRule, value: number) {
@@ -191,18 +201,28 @@
   let type: TypeEnum = TypeEnum.ADD;
   const defaultValueRef = () => ({
     seqNo: null,
-    name: '',
-    url: '',
-    icon: '',
-    summary: '',
-    tag: '',
-    weight: 1,
+    appName: '',
+    appPath: '',
+    appGroup: '',
+    appWeight: 1,
+    appDescription: '',
   });
+
+  //组别下拉
+  const appGroupLoading = ref<boolean>(false);
+  const appGroupOptions = ref<SelectOption[]>([]);
+  let appGroup: SelectOption[] = [];
+
+  const GetAppGroup = (query: string) => {
+    appGroupLoading.value = true;
+    appGroupOptions.value = appGroup.filter((item) => ~item.label.indexOf(query));
+    appGroupLoading.value = false;
+  };
 
   let formValue = reactive(defaultValueRef());
 
   const actionColumn = reactive({
-    width: 220,
+    width: 180,
     title: '操作',
     key: 'action',
     fixed: 'right',
@@ -251,8 +271,10 @@
     schemas,
   });
 
-  function addTable() {
+  async function addTable() {
     title.value = '应用管理-新增';
+    appGroup = await getGroup();
+    appGroupOptions.value = appGroup;
     initForm(TypeEnum.ADD);
   }
 
@@ -278,6 +300,8 @@
 
   async function handleEdit(record: Recordable) {
     title.value = '应用管理-编辑';
+    appGroup = await getGroup();
+    appGroupOptions.value = appGroup;
     const { success, msg, data } = await getApp(record.seqNo);
     if (success) {
       initForm(TypeEnum.EDIT, data);
@@ -291,12 +315,12 @@
       positiveText: '确定',
       negativeText: '我再想想',
       onPositiveClick: async () => {
-        const result = await delApp(record.seqNo);
-        if (result) {
+        const { success, msg } = await delApp(record.seqNo);
+        if (success) {
           message.info('删除成功');
           reloadTable();
         } else {
-          message.error('删除失败');
+          message.error(`删除失败!${msg}`);
         }
       },
     });
@@ -310,7 +334,7 @@
   function formSubmit() {
     formRef.value.validate(async (errors) => {
       if (!errors) {
-        let result = null;
+        let result;
         switch (type) {
           case TypeEnum.ADD:
             result = await addApp(formValue);
@@ -320,11 +344,12 @@
             break;
         }
 
-        if (result) {
+        const { success, msg } = result;
+        if (success) {
           message.info('操作成功');
           resetForm();
           visible.value = false;
-        }
+        } else message.error(`操作失败！${msg}`);
       } else {
         message.error('验证失败，请填写完整信息');
       }

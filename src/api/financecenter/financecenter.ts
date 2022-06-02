@@ -55,3 +55,11 @@ export async function getApp(params) {
     params,
   });
 }
+
+// 下拉分组
+export async function getGroup() {
+  return await http.request({
+    url: url.FINANCE_GROUP_COMBO,
+    method: RequestEnum.GET,
+  });
+}

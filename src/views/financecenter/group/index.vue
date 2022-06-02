@@ -56,45 +56,24 @@
                     >
                       <n-input v-model:value="formValue.seqNo" />
                     </n-form-item>
-                    <n-form-item label="名称" path="name">
+                    <n-form-item label="名称" path="groupName">
                       <n-input
-                        v-model:value="formValue.name"
+                        v-model:value="formValue.groupName"
                         placeholder="输入名称"
                         :clearable="true"
                       />
                     </n-form-item>
-                    <n-form-item label="地址" path="url">
-                      <n-input
-                        v-model:value="formValue.url"
-                        placeholder="输入应用地址"
-                        :clearable="true"
-                      />
-                    </n-form-item>
-                    <n-form-item label="图标" path="icon">
-                      <n-input
-                        v-model:value="formValue.icon"
-                        placeholder="输入图标地址"
-                        :clearable="true"
-                      />
-                    </n-form-item>
-                    <n-form-item label="权重" path="weight">
+                    <n-form-item label="权重" path="groupWeight">
                       <n-input-number
-                        v-model:value="formValue.weight"
+                        v-model:value="formValue.groupWeight"
                         placeholder="输入权重"
                         style="width: 100%"
                         :clearable="true"
                       />
                     </n-form-item>
-                    <n-form-item label="标签" path="tag">
+                    <n-form-item label="描述" path="groupDescription">
                       <n-input
-                        v-model:value="formValue.tag"
-                        placeholder="输入标签"
-                        :clearable="true"
-                      />
-                    </n-form-item>
-                    <n-form-item label="描述" path="summary">
-                      <n-input
-                        v-model:value="formValue.summary"
+                        v-model:value="formValue.groupDescription"
                         type="textarea"
                         placeholder="请输入描述"
                         :clearable="true"
@@ -131,11 +110,11 @@
 
   const schemas: FormSchema[] = [
     {
-      field: 'appName',
+      field: 'groupName',
       component: 'NInput',
-      label: '应用名称',
+      label: '名称',
       componentProps: {
-        placeholder: '请输入应用名称',
+        placeholder: '输入组别名称',
       },
     },
   ];
@@ -155,23 +134,12 @@
   };
 
   const rules = {
-    name: {
+    groupName: {
       required: true,
-      message: '请输入应用名称',
+      message: '请输入组别名称',
       trigger: 'blur',
     },
-
-    url: {
-      required: true,
-      message: '请输入应用地址',
-      trigger: 'blur',
-    },
-    icon: {
-      required: true,
-      message: '请输入应用图标地址',
-      trigger: 'blur',
-    },
-    weight: [
+    groupWeight: [
       {
         required: true,
         validator(rule: FormItemRule, value: number) {
@@ -192,18 +160,15 @@
   let type: TypeEnum = TypeEnum.ADD;
   const defaultValueRef = () => ({
     seqNo: null,
-    name: '',
-    url: '',
-    icon: '',
-    summary: '',
-    tag: '',
-    weight: 1,
+    groupName: '',
+    groupWeight: 1,
+    groupDescription: '',
   });
 
   let formValue = reactive(defaultValueRef());
 
   const actionColumn = reactive({
-    width: 220,
+    width: 180,
     title: '操作',
     key: 'action',
     fixed: 'right',
@@ -311,7 +276,7 @@
   function formSubmit() {
     formRef.value.validate(async (errors) => {
       if (!errors) {
-        let result = null;
+        let result;
         switch (type) {
           case TypeEnum.ADD:
             result = await addApp(formValue);
@@ -321,11 +286,12 @@
             break;
         }
 
-        if (result) {
+        const { success, msg } = result;
+        if (success) {
           message.info('操作成功');
           resetForm();
           visible.value = false;
-        }
+        } else message.error(`操作失败！${msg}`);
       } else {
         message.error('验证失败，请填写完整信息');
       }

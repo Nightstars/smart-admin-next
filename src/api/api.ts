@@ -8,6 +8,7 @@ const urls = {
   FINANCE_INFO: `/FinanceApp/`, //金融分组
   FINANCE_GROUP: `/FinanceGroup`, //金融应用
   FINANCE_GROUP_INFO: `/FinanceGroup/`, //金融分组
+  FINANCE_GROUP_COMBO: `/FinanceGroup/combo`, //金融分组下拉
 };
 
 export const url = urls;
