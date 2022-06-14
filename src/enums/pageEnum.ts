@@ -11,4 +11,11 @@ export enum PageEnum {
   BASE_HOME_REDIRECT = '/dashboard/console',
   // 错误
   ERROR_PAGE_NAME = 'ErrorPage',
+  //影视中心
+  CINEMA = '/cinema',
+  CINEMA_RECOMMEND = '/cinema/recommend',
+  CINEMA_MOVIE = '/cinema/movie',
+  CINEMA_SERIAL = '/cinema/serial',
+  CINEMA_CARTOON = '/cinema/cartoon',
+  CINEMA_VARIETY_SHOW = '/cinema/varietyShow',
 }

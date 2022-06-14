@@ -38,11 +38,64 @@ export const LoginRoute: RouteRecordRaw = {
   },
 };
 
+//影视中心
+export const CinemaRoute: RouteRecordRaw = {
+  path: '/cinema',
+  name: 'Cinema',
+  redirect: '/cinema/recommend',
+  component: () => import('@/views/cinema/home/index.vue'),
+  meta: {
+    title: '影视中心',
+  },
+  children: [
+    {
+      path: 'recommend',
+      name: 'Recommend',
+      component: () => import('@/views/cinema/recommend/index.vue'),
+      meta: {
+        title: '影视中心-推荐',
+      },
+    },
+    {
+      path: 'movie',
+      name: 'Movie',
+      component: () => import('@/views/cinema/movie/index.vue'),
+      meta: {
+        title: '影视中心-电影',
+      },
+    },
+    {
+      path: 'serial',
+      name: 'Serial',
+      component: () => import('@/views/cinema/serial/index.vue'),
+      meta: {
+        title: '影视中心-电视剧',
+      },
+    },
+    {
+      path: 'cartoon',
+      name: 'Cartoon',
+      component: () => import('@/views/cinema/cartoon/index.vue'),
+      meta: {
+        title: '影视中心-动漫',
+      },
+    },
+    {
+      path: 'varietyShow',
+      name: 'VarietyShow',
+      component: () => import('@/views/cinema/varietyshow/index.vue'),
+      meta: {
+        title: '影视中心-综艺',
+      },
+    },
+  ],
+};
+
 //需要验证权限
 export const asyncRoutes = [...routeModuleList];
 
 //普通路由 无需验证权限
-export const constantRouter: any[] = [LoginRoute, RootRoute, RedirectRoute];
+export const constantRouter: any[] = [LoginRoute, RootRoute, RedirectRoute, CinemaRoute];
 
 const router = createRouter({
   history: createWebHashHistory(''),

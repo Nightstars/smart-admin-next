@@ -9,7 +9,15 @@ import { ErrorPageRoute } from '@/router/base';
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN;
 
-const whitePathList = [LOGIN_PATH]; // no redirect whitelist
+const whitePathList = [
+  LOGIN_PATH,
+  PageEnum.CINEMA,
+  PageEnum.CINEMA_RECOMMEND,
+  PageEnum.CINEMA_MOVIE,
+  PageEnum.CINEMA_SERIAL,
+  PageEnum.CINEMA_CARTOON,
+  PageEnum.CINEMA_VARIETY_SHOW,
+]; // no redirect whitelist
 
 export function createRouterGuards(router: Router) {
   const userStore = useUserStoreWidthOut();
