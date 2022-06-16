@@ -10,3 +10,11 @@ export async function getRecommend(params) {
     params,
   });
 }
+
+// 视频详情
+export async function getDetail(params) {
+  return await http.request({
+    url: `${url.CINEMA_RECOMMEND}${params}`,
+    method: RequestEnum.GET,
+  });
+}

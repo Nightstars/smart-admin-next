@@ -17,6 +17,7 @@ const whitePathList = [
   PageEnum.CINEMA_SERIAL,
   PageEnum.CINEMA_CARTOON,
   PageEnum.CINEMA_VARIETY_SHOW,
+  PageEnum.CINEMA_DETAIL,
 ]; // no redirect whitelist
 
 export function createRouterGuards(router: Router) {

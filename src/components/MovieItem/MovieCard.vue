@@ -43,6 +43,10 @@
 <script lang="ts" setup>
   import { defineProps } from 'vue';
   import { string } from 'vue-types';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
   const props = defineProps({
     src: {
       type: string,
@@ -60,7 +64,7 @@
     },
   });
   function showid(data) {
-    alert(data);
+    router.push({ name: 'Detail', params: { id: data } });
   }
 </script>
 
