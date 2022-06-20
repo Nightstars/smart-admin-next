@@ -2,7 +2,10 @@
   <n-space style="max-width: 1500px; margin-top: 25px">
     <n-layout has-sider v-for="item in movieDetail">
       <n-layout-sider content-style="padding: 24px;">
-        <n-image :src="item.vod_pic"></n-image>
+        <n-image
+          :src="item.vod_pic"
+          style="box-shadow: -2px 3px 2px #0000001f, 2px 3px 2px #0000001f, 0 -1px 2px #0000001f"
+        />
       </n-layout-sider>
       <n-layout>
         <n-layout-header class="margin-25">

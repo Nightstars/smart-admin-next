@@ -1,5 +1,13 @@
 <template>
-  <div style="width: 177px; height: 246px" @click="showid(id)">
+  <div
+    style="
+      width: 177px;
+      height: 246px;
+      border-radius: 7px;
+      box-shadow: -2px 3px 2px #0000001f, 2px 3px 2px #0000001f, 0 -1px 2px #0000001f;
+    "
+    @click="showid(id)"
+  >
     <n-image
       style="width: 177px; height: 246px; border-radius: 7px"
       :src="props.src"
