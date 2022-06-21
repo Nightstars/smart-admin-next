@@ -9,31 +9,19 @@
       </n-layout-sider>
       <n-layout>
         <n-layout-header class="margin-25">
-          <p style="font-size: 36px;font-weight: bold">{{ item.vod_name }}</p>
+          <p style="font-size: 36px; font-weight: bold">{{ item.vod_name }}</p>
         </n-layout-header>
-        <n-layout-content class="margin-25">
-           类型：{{ item.vod_types }}
-        </n-layout-content>
-        <n-layout-content class="margin-25">
-          导演：{{ item.vod_director }}
-        </n-layout-content>
-        <n-layout-content class="margin-25">
-          主演：{{ item.vod_actors }}
-        </n-layout-content>
-        <n-layout-content class="margin-25">
-          地区：{{ item.vod_area }}
-        </n-layout-content>
-        <n-layout-content class="margin-25">
-          年份：{{ item.vod_year }}
-        </n-layout-content>
-        <n-layout-content class="margin-25">
-          简介：{{ item.vod_summary }}
-        </n-layout-content>
+        <n-layout-content class="margin-25"> 类型：{{ item.vod_types }} </n-layout-content>
+        <n-layout-content class="margin-25"> 导演：{{ item.vod_director }} </n-layout-content>
+        <n-layout-content class="margin-25"> 主演：{{ item.vod_actors }} </n-layout-content>
+        <n-layout-content class="margin-25"> 地区：{{ item.vod_area }} </n-layout-content>
+        <n-layout-content class="margin-25"> 年份：{{ item.vod_year }} </n-layout-content>
+        <n-layout-content class="margin-25"> 简介：{{ item.vod_summary }} </n-layout-content>
       </n-layout>
     </n-layout>
   </n-space>
   <div v-for="item in movieDetail">
-    <n-button type="info" v-for="mov in item.vod_play" style="margin: 20px">
+    <n-button type="info" v-for="mov in item.vod_play" style="margin: 20px" @click="play(mov.url)">
       {{ mov.name }}
     </n-button>
   </div>
@@ -71,6 +59,11 @@
     movieDetail.value = data;
     console.log(movieDetail);
   });
+
+  function play(url) {
+    console.log(url);
+
+  }
 </script>
 
 <style lang="less" scoped>
