@@ -1,10 +1,13 @@
 <template>
-  <n-space style="max-width: 1500px; margin-top: 25px">
+  <n-space style="max-width: 1500px; width: 100%; margin: 0 auto">
     <n-layout has-sider v-for="item in movieDetail">
       <n-layout-sider content-style="padding: 24px;">
         <n-image
           :src="item.vod_pic"
-          style="box-shadow: -2px 3px 2px #0000001f, 2px 3px 2px #0000001f, 0 -1px 2px #0000001f"
+          style="
+            box-shadow: -2px 3px 2px #0000001f, 2px 3px 2px #0000001f, 0 -1px 2px #0000001f;
+            border-radius: 7px;
+          "
         />
       </n-layout-sider>
       <n-layout>
@@ -19,12 +22,12 @@
         <n-layout-content class="margin-25"> 简介：{{ item.vod_summary }} </n-layout-content>
       </n-layout>
     </n-layout>
+    <div v-for="item in movieDetail" style="margin: 0 auto">
+      <n-button type="info" v-for="mov in item.vod_play" style="margin: 20px" @click="play(mov.url)">
+        {{ mov.name }}
+      </n-button>
+    </div>
   </n-space>
-  <div v-for="item in movieDetail">
-    <n-button type="info" v-for="mov in item.vod_play" style="margin: 20px" @click="play(mov.url)">
-      {{ mov.name }}
-    </n-button>
-  </div>
 </template>
 
 <script lang="ts" setup>
@@ -50,19 +53,17 @@
 
   const movieDetail = ref([] as MoviesType[]);
 
-  const params = 257;
-
   onMounted(async () => {
-    const result = await getDetail(params);
+    const result = await getDetail(router.currentRoute.value.query.id);
     let data: any = [];
     data.push(result);
     movieDetail.value = data;
-    console.log(movieDetail);
   });
 
   function play(url) {
     console.log(url);
-
+    router.push({ name: 'Play', query: { id: movieDetail.value[0].vod_id,
+        url: movieDetail.value[0].vod_play[0].url } });
   }
 </script>
 

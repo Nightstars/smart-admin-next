@@ -19,4 +19,5 @@ export enum PageEnum {
   CINEMA_CARTOON = '/cinema/cartoon',
   CINEMA_VARIETY_SHOW = '/cinema/varietyShow',
   CINEMA_DETAIL = '/cinema/detail',
+  CINEMA_PLAY = '/cinema/play',
 }

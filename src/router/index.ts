@@ -96,6 +96,14 @@ export const CinemaRoute: RouteRecordRaw = {
         title: '影视中心-详情',
       },
     },
+    {
+      path: 'play',
+      name: 'Play',
+      component: () => import('@/views/cinema/play/index.vue'),
+      meta: {
+        title: '影视中心-播放',
+      },
+    },
   ],
 };
 

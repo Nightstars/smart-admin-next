@@ -72,7 +72,7 @@
     },
   });
   function showid(data) {
-    router.push({ name: 'Detail', params: { id: data } });
+    router.push({ name: 'Detail', query: { id: data } });
   }
 </script>
 
