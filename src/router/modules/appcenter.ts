@@ -36,6 +36,15 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@/views/appcenter/mgr/index.vue'),
       },
+      {
+        path: 'myAppsGroup',
+        name: `${routeName}_appsGroup`,
+        meta: {
+          title: '分组管理',
+          //permissions: [`${routeName}_appsMgr`],
+        },
+        component: () => import('@/views/appcenter/group/index.vue'),
+      },
     ],
   },
 ];

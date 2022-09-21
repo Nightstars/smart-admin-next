@@ -3,6 +3,8 @@ const urls = {
   APPS: `/MyApps`, //我的应用
   APPS_LIST: `/MyApps/list`, //我的应用
   APPS_INFO: `/MyApps/`, //应用详情
+  APPS_GROUP: `/MyAppsGroup`, //金融应用
+  APPS_GROUP_INFO: `/MyAppsGroup/`, //金融分组
   APPS_GROUP_COMBO: `/MyAppsGroup/combo`, //应用分组
   FINANCE_APP: `/FinanceApp/getData`, //金融应用
   FINANCE_APPS: `/FinanceApp`, //金融应用
