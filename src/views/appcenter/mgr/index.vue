@@ -28,12 +28,7 @@
         </template>
       </BasicTable>
 
-      <n-drawer
-        v-model:show="visible"
-        :width="502"
-        :on-after-leave="onAfterLeave"
-        to="#drawer-target"
-      >
+      <n-drawer v-model:show="visible" :width="502" :on-after-leave="onAfterLeave">
         <n-drawer-content :title="title" closable>
           <div>
             <n-card :bordered="false" class="mt-4 proCard" style="margin-top: 0">
@@ -85,6 +80,18 @@
                         :clearable="true"
                       />
                     </n-form-item>
+                    <n-form-item label="组别" path="appGroup">
+                      <n-select
+                        v-model:value="formValue.appGroup"
+                        filterable
+                        placeholder="选择组别"
+                        :options="appGroupOptions"
+                        :loading="appGroupLoading"
+                        clearable
+                        remote
+                        @search="GetAppGroup"
+                      />
+                    </n-form-item>
                     <n-form-item label="标签" path="tag">
                       <n-input
                         v-model:value="formValue.tag"
@@ -121,9 +128,16 @@
 
 <script lang="ts" setup>
   import { h, reactive, ref, unref } from 'vue';
-  import { FormItemRule, useDialog, useMessage } from 'naive-ui';
+  import { FormItemRule, SelectOption, useDialog, useMessage } from 'naive-ui';
   import { BasicTable, TableAction } from '@/components/Table';
-  import { addApp, delApp, editApp, getApp, getPageData } from '@/api/appcenter/appcenter';
+  import {
+    addApp,
+    delApp,
+    editApp,
+    getApp,
+    getPageData,
+    getGroup,
+  } from '@/api/appcenter/appcenter';
   import { columns } from './columns';
   import { PlusOutlined } from '@vicons/antd';
   import { BasicForm, FormSchema, useForm } from '@/components/Form/index';
@@ -149,6 +163,20 @@
   const visible = ref<boolean>(false);
   //抽屉标题
   const title = ref<string>('应用管理');
+
+  // 组别下拉
+  const appGroupOptions = ref<SelectOption[]>([]);
+  // 组别下拉框加载
+  const appGroupLoading = ref<boolean>(false);
+  // appGroup 数据
+  let appGroup: SelectOption[] = [];
+  // 组别下拉
+  const GetAppGroup = (query: string) => {
+    appGroupLoading.value = true;
+    appGroupOptions.value = appGroup.filter((item) => ~item.label.indexOf(query));
+    appGroupLoading.value = false;
+  };
+
   //抽屉状态改变
   const onAfterLeave = () => {
     reloadTable();
@@ -197,6 +225,7 @@
     summary: '',
     tag: '',
     weight: 1,
+    appGroup: '',
   });
 
   let formValue = reactive(defaultValueRef());
@@ -251,8 +280,10 @@
     schemas,
   });
 
-  function addTable() {
+  async function addTable() {
     title.value = '应用管理-新增';
+    appGroup = await getGroup();
+    appGroupOptions.value = appGroup;
     initForm(TypeEnum.ADD);
   }
 
@@ -278,6 +309,8 @@
 
   async function handleEdit(record: Recordable) {
     title.value = '应用管理-编辑';
+    appGroup = await getGroup();
+    appGroupOptions.value = appGroup;
     const { success, msg, data } = await getApp(record.seqNo);
     if (success) {
       initForm(TypeEnum.EDIT, data);

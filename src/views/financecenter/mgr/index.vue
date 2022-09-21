@@ -28,12 +28,7 @@
         </template>
       </BasicTable>
 
-      <n-drawer
-        v-model:show="visible"
-        :width="502"
-        :on-after-leave="onAfterLeave"
-        to="#drawer-target"
-      >
+      <n-drawer v-model:show="visible" :width="502" :on-after-leave="onAfterLeave">
         <n-drawer-content :title="title" closable>
           <div>
             <n-card :bordered="false" class="mt-4 proCard" style="margin-top: 0">
