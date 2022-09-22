@@ -14,7 +14,7 @@ export async function getAll(params) {
 // 获取所用应用
 export async function getPageData(params) {
   return await http.request({
-    url: url.APPS_LIST,
+    url: `${url.APPS}/listByPage`,
     method: 'get',
     params,
   });
