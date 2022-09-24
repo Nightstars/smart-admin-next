@@ -5,7 +5,7 @@ import { RequestEnum } from '@/enums/httpEnum';
 // 获取所用应用
 export async function getAll(params) {
   return await http.request({
-    url: url.APPS,
+    url: `${url.APPS}/list`,
     method: 'get',
     params,
   });

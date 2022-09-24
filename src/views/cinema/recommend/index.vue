@@ -31,7 +31,7 @@
   const movies = ref([] as MoviesType[]);
 
   const params = {
-    type: 5,
+    type: 6,
   };
 
   onMounted(async () => {
